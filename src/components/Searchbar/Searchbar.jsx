@@ -1,6 +1,46 @@
+//import { useState, useRef, useEffect } from 'react';
 import { Component } from 'react';
-
 import styles from './searchbar.module.css';
+/*
+const Searchbar = ({ onSubmit }) => {
+  const [state, setState] = useState('');
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    const
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    this.props.onSubmit({ ...this.state });
+    this.setState({
+      search: '',
+    });
+  };
+
+  return (
+    <header className={styles.searchbar}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <button type="submit" className={styles.button}>
+          <span className={styles.buttonLabel}>Search</span>
+        </button>
+
+        <input
+          value={search}
+          onChange={handleChange}
+          className={styles.input}
+          name="search"
+          type="text"
+          required
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </form>
+    </header>
+  );
+};
+*/
 
 class Searchbar extends Component {
   state = {

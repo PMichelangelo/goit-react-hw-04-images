@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Searchbar from 'components/Searchbar/Searchbar';
 import ImageGallery from 'components/ImageGallery/ImageGallery';
 import { searchResults } from 'components/api/api';
@@ -7,6 +7,85 @@ import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader/Loader';
 import styles from './pixabayFinder.module.css';
 
+const PixabayFinder = () => {
+  const [search, setSearch] = useState('');
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [modal, setModal] = useState(false);
+  const [imageModal, setimageModal] = useState({});
+  const [prevSearch, setPrevSearch] = useState('');
+  const [prevPage, setPrevPage] = useState(1);
+
+  useEffect(() => {
+    setPrevSearch(search);
+    setPrevPage(page);
+  }, [search, page]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        setLoading(true);
+        const { data } = await searchResults(search, page);
+
+        if (data.hits && data.hits.length > 0) {
+          setImages(prevImages => [...prevImages, ...data.hits]);
+        } else {
+          alert('Your query is invalid');
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (search && (search !== prevSearch || page !== prevPage)) {
+      fetchImages();
+    }
+  }, [search, page, prevPage, prevSearch]);
+
+  const handleSearch = ({ search }) => {
+    setSearch(search);
+    setImages([]);
+    setPage(1);
+  };
+
+  const loadMore = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
+  const showModal = largeImageURL => {
+    setModal(true);
+    setimageModal({ largeImageURL });
+  };
+
+  const closeModal = () => {
+    setModal(false);
+    setimageModal({});
+  };
+
+  const isImages = Boolean(images.length);
+  return (
+    <>
+      <Searchbar onSubmit={handleSearch} />
+      {error && <p className={styles.error}>{error}</p>}
+      {loading && <Loader />}
+      {isImages && <ImageGallery items={images} showModal={showModal} />}
+      {isImages && (
+        <div className={styles.btnWrapper}>
+          <Button onClick={loadMore} type="button">
+            Load more
+          </Button>
+        </div>
+      )}
+      {modal && (
+        <Modal largeImageURL={imageModal.largeImageURL} close={closeModal} />
+      )}
+    </>
+  );
+};
+/*
 class PixabayFinder extends Component {
   state = {
     search: '',
@@ -115,5 +194,6 @@ class PixabayFinder extends Component {
     );
   }
 }
+*/
 
 export default PixabayFinder;

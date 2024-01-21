@@ -24,6 +24,7 @@ const PixabayFinder = () => {
         const { data } = await searchResults(search, page);
 
         if (data.hits && data.hits.length > 0) {
+          console.log('Fetched images:', data.hits);
           setImages(prevImages => [...prevImages, ...data.hits]);
         } else {
           alert('Your query is invalid');
@@ -52,7 +53,13 @@ const PixabayFinder = () => {
   };
 
   const loadMore = () => {
-    setPage(prevPage => prevPage + 1);
+    setPage(prevPage => {
+      console.log('prevPage:', prevPage);
+      console.log('page before update:', page);
+      const updatedPage = prevPage + 1;
+      console.log('page after update:', updatedPage);
+      return updatedPage;
+    });
   };
 
   const showModal = largeImageURL => {

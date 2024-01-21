@@ -11,6 +11,7 @@ const Searchbar = ({ onSubmit }) => {
   };
 
   const handleSubmit = e => {
+    console.log(search);
     e.preventDefault();
     onSubmit(search);
     setSearch('');

@@ -1,21 +1,19 @@
-//import { useState, useRef, useEffect } from 'react';
-import { Component } from 'react';
+import { useState, useRef, useEffect } from 'react';
+//import { Component } from 'react';
 import styles from './searchbar.module.css';
-/*
-const Searchbar = ({ onSubmit }) => {
-  const [state, setState] = useState('');
 
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    const
+const Searchbar = ({ onSubmit }) => {
+  const [search, setSearch] = useState('');
+
+  const handleChange = e => {
+    const { value } = e.target;
+    setSearch(value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit({ ...this.state });
-    this.setState({
-      search: '',
-    });
+    onSubmit(search);
+    setSearch('');
   };
 
   return (
@@ -40,8 +38,8 @@ const Searchbar = ({ onSubmit }) => {
     </header>
   );
 };
-*/
 
+/*
 class Searchbar extends Component {
   state = {
     search: '',
@@ -88,5 +86,5 @@ class Searchbar extends Component {
     );
   }
 }
-
+*/
 export default Searchbar;

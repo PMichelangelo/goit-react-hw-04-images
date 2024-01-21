@@ -46,6 +46,7 @@ const PixabayFinder = () => {
   }, [search, page, prevPage, prevSearch]);
 
   const handleSearch = ({ search }) => {
+    console.log('Submitted:', search);
     setSearch(search);
     setImages([]);
     setPage(1);

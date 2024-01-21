@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Searchbar from 'components/Searchbar/Searchbar';
 import ImageGallery from 'components/ImageGallery/ImageGallery';
 import { searchResults } from 'components/api/api';
@@ -15,13 +15,7 @@ const PixabayFinder = () => {
   const [page, setPage] = useState(1);
   const [modal, setModal] = useState(false);
   const [imageModal, setimageModal] = useState({});
-  const [prevSearch, setPrevSearch] = useState('');
-  const [prevPage, setPrevPage] = useState(1);
-
-  useEffect(() => {
-    setPrevSearch(search);
-    setPrevPage(page);
-  }, [search, page]);
+  const prevSearchRef = useRef('');
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -40,12 +34,17 @@ const PixabayFinder = () => {
         setLoading(false);
       }
     };
-    if (search && (search !== prevSearch || page !== prevPage)) {
+    if (search && search !== prevSearchRef.current) {
+      console.log(`PrevSearch: ${prevSearchRef.current}`);
       fetchImages();
+      prevSearchRef.current = search;
     }
-  }, [search, page, prevPage, prevSearch]);
+  }, [search, page]);
 
   const handleSearch = search => {
+    if (search === prevSearchRef.current) {
+      return alert(`You alredy get results of ${search}! Try something else.`);
+    }
     console.log('Submitted:', search);
     setSearch(search);
     setImages([]);

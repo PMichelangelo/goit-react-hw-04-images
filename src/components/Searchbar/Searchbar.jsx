@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 //import { Component } from 'react';
 import styles from './searchbar.module.css';
 
@@ -20,14 +20,14 @@ const Searchbar = ({ onSubmit }) => {
   return (
     <header className={styles.searchbar}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <button type="submit" className={styles.button}>
-          <span className={styles.buttonLabel}>Search</span>
+        <button type="submit" className={styles.searchFormButton}>
+          <span className={styles.searchFormButtonLabel}>Search</span>
         </button>
 
         <input
           value={search}
           onChange={handleChange}
-          className={styles.input}
+          className={styles.searchForm}
           name="search"
           type="text"
           required

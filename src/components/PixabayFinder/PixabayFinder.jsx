@@ -22,7 +22,7 @@ const PixabayFinder = () => {
       try {
         setLoading(true);
         const { data } = await searchResults(search, page);
-
+        console.log('Fetching images for page:', page); // Добавлен лог
         if (data.hits && data.hits.length > 0) {
           console.log('Fetched images:', data.hits);
           setImages(prevImages => [...prevImages, ...data.hits]);
@@ -35,7 +35,7 @@ const PixabayFinder = () => {
         setLoading(false);
       }
     };
-    if (search && search !== prevSearchRef.current) {
+    if (search !== prevSearchRef.current || page !== 1) {
       console.log(`PrevSearch: ${prevSearchRef.current}`);
       fetchImages();
       prevSearchRef.current = search;
@@ -52,15 +52,7 @@ const PixabayFinder = () => {
     setPage(1);
   };
 
-  const loadMore = () => {
-    setPage(prevPage => {
-      console.log('prevPage:', prevPage);
-      console.log('page before update:', page);
-      const updatedPage = prevPage + 1;
-      console.log('page after update:', updatedPage);
-      return updatedPage;
-    });
-  };
+  const loadMore = () => setPage(prevPage => prevPage + 1);
 
   const showModal = largeImageURL => {
     setModal(true);

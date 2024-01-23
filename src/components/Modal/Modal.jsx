@@ -7,22 +7,20 @@ const modalRoot = document.getElementById('modal-root');
 console.log(modalRoot);
 
 const Modal = ({ close, largeImageURL }) => {
-  useEffect(() => {
-    const closeModal = ({ target, currentTarget, code }) => {
-      if (target === currentTarget || code === 'Escape') {
-        close();
-      }
-    };
+  const closeModal = ({ target, currentTarget, code }) => {
+    if (target === currentTarget || code === 'Escape') {
+      close();
+    }
+  };
 
+  useEffect(() => {
     document.addEventListener('keydown', closeModal);
 
-    return () => {
-      document.removeEventListener('keydown', closeModal);
-    };
-  }, [close]);
+    return () => document.removeEventListener('keydown', closeModal);
+  }, []);
 
   return createPortal(
-    <div onClick={close} className={styles.overlay}>
+    <div onClick={closeModal} className={styles.overlay}>
       <div className={styles.modal}>
         <img src={largeImageURL} alt="" />
       </div>

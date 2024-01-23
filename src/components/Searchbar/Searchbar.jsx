@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 //import { Component } from 'react';
 import styles from './searchbar.module.css';
 
 const Searchbar = ({ onSubmit }) => {
   const [search, setSearch] = useState('');
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    console.log(inputRef);
+    inputRef.current.focus();
+  }, []);
 
   const handleChange = e => {
     const { value } = e.target;
@@ -25,6 +32,7 @@ const Searchbar = ({ onSubmit }) => {
         </button>
 
         <input
+          ref={inputRef}
           value={search}
           onChange={handleChange}
           className={styles.searchForm}
